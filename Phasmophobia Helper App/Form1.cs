@@ -89,190 +89,190 @@ namespace Phasmophobia_Helper_App
         //p1
         private void checkBox19_CheckedChanged(object sender, EventArgs e)
         {
-            comboBox1.Enabled = true;
-            if (checkBox19.Checked)
-            {
-                totalPlayers = 1;
-                comboBox2.Enabled = false;
-                comboBox3.Enabled = false;
-                comboBox4.Enabled = false;
-                comboBox2.Visible = false;
-                comboBox3.Visible = false;
-                comboBox4.Visible = false;
-                checkBox20.Visible = false;
-                checkBox21.Visible = false;
-                checkBox22.Visible = false;
-            }
-            else
-            {
-                totalPlayers = 0;
-                comboBox2.Enabled = false;
-                comboBox3.Enabled = false;
-                comboBox4.Enabled = false;
-                comboBox2.Visible = true;
-                comboBox3.Visible = true;
-                comboBox4.Visible = true;
-                checkBox20.Visible = true;
-                checkBox21.Visible = true;
-                checkBox22.Visible = true;
-            }
+            //comboBox1.Enabled = true;
+            //if (checkBox19.Checked)
+            //{
+            //    totalPlayers = 1;
+            //    comboBox2.Enabled = false;
+            //    comboBox3.Enabled = false;
+            //    comboBox4.Enabled = false;
+            //    comboBox2.Visible = false;
+            //    comboBox3.Visible = false;
+            //    comboBox4.Visible = false;
+            //    checkBox20.Visible = false;
+            //    checkBox21.Visible = false;
+            //    checkBox22.Visible = false;
+            //}
+            //else
+            //{
+            //    totalPlayers = 0;
+            //    comboBox2.Enabled = false;
+            //    comboBox3.Enabled = false;
+            //    comboBox4.Enabled = false;
+            //    comboBox2.Visible = true;
+            //    comboBox3.Visible = true;
+            //    comboBox4.Visible = true;
+            //    checkBox20.Visible = true;
+            //    checkBox21.Visible = true;
+            //    checkBox22.Visible = true;
+            //}
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (comboBox1.ToString() != "Player 1 Sanity")
-                {
-                    p1 = Int32.Parse(comboBox1.SelectedItem.ToString());
-                }
-                checkSanity();
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine("Error:", error);
-            }
+        //private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (comboBox1.ToString() != "Player 1 Sanity")
+        //        {
+        //            p1 = Int32.Parse(comboBox1.SelectedItem.ToString());
+        //        }
+        //        checkSanity();
+        //    }
+        //    catch (Exception error)
+        //    {
+        //        Console.WriteLine("Error:", error);
+        //    }
 
-        }
+        //}
 
         //p2
         private void checkBox20_CheckedChanged(object sender, EventArgs e)
         {
-            comboBox1.Enabled = true;
-            if (checkBox20.Checked)
-            {
-                totalPlayers = 2;
-                comboBox2.Enabled = true;
-                comboBox3.Visible = false;
-                comboBox4.Visible = false;
-                checkBox19.Visible = false;
-                checkBox21.Visible = false;
-                checkBox22.Visible = false;
-            }
-            else
-            {
-                totalPlayers = 0;
-                comboBox2.Enabled = false;
-                comboBox3.Enabled = false;
-                comboBox4.Enabled = false;
-                comboBox2.Visible = true;
-                comboBox3.Visible = true;
-                comboBox4.Visible = true;
-                checkBox19.Visible = true;
-                checkBox21.Visible = true;
-                checkBox22.Visible = true;
-            }
+            //comboBox1.Enabled = true;
+            //if (checkBox20.Checked)
+            //{
+            //    totalPlayers = 2;
+            //    comboBox2.Enabled = true;
+            //    comboBox3.Visible = false;
+            //    comboBox4.Visible = false;
+            //    checkBox19.Visible = false;
+            //    checkBox21.Visible = false;
+            //    checkBox22.Visible = false;
+            //}
+            //else
+            //{
+            //    totalPlayers = 0;
+            //    comboBox2.Enabled = false;
+            //    comboBox3.Enabled = false;
+            //    comboBox4.Enabled = false;
+            //    comboBox2.Visible = true;
+            //    comboBox3.Visible = true;
+            //    comboBox4.Visible = true;
+            //    checkBox19.Visible = true;
+            //    checkBox21.Visible = true;
+            //    checkBox22.Visible = true;
+            //}
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (comboBox2.ToString() != "Player 2 Sanity")
-                {
-                    p2 = Int32.Parse(comboBox2.SelectedItem.ToString());
-                }
-                checkSanity();
-            }
-            catch
-            {
+        //private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (comboBox2.ToString() != "Player 2 Sanity")
+        //        {
+        //            p2 = Int32.Parse(comboBox2.SelectedItem.ToString());
+        //        }
+        //        checkSanity();
+        //    }
+        //    catch
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         //p3
-        private void checkBox21_CheckedChanged(object sender, EventArgs e)
-        {
-            comboBox1.Enabled = true;
-            if (checkBox21.Checked)
-            {
-                totalPlayers = 3;
-                comboBox2.Enabled = true;
-                comboBox3.Enabled = true;
-                comboBox4.Visible = false;
-                checkBox19.Visible = false;
-                checkBox20.Visible = false;
-                checkBox22.Visible = false;
-            }
-            else
-            {
-                totalPlayers = 0;
-                comboBox2.Enabled = false;
-                comboBox3.Enabled = false;
-                comboBox4.Enabled = false;
-                comboBox2.Visible = true;
-                comboBox3.Visible = true;
-                comboBox4.Visible = true;
-                checkBox19.Visible = true;
-                checkBox20.Visible = true;
-                checkBox22.Visible = true;
-            }
-        }
+        //private void checkBox21_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    comboBox1.Enabled = true;
+        //    if (checkBox21.Checked)
+        //    {
+        //        totalPlayers = 3;
+        //        comboBox2.Enabled = true;
+        //        comboBox3.Enabled = true;
+        //        comboBox4.Visible = false;
+        //        checkBox19.Visible = false;
+        //        checkBox20.Visible = false;
+        //        checkBox22.Visible = false;
+        //    }
+        //    else
+        //    {
+        //        totalPlayers = 0;
+        //        comboBox2.Enabled = false;
+        //        comboBox3.Enabled = false;
+        //        comboBox4.Enabled = false;
+        //        comboBox2.Visible = true;
+        //        comboBox3.Visible = true;
+        //        comboBox4.Visible = true;
+        //        checkBox19.Visible = true;
+        //        checkBox20.Visible = true;
+        //        checkBox22.Visible = true;
+        //    }
+        //}
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (comboBox3.ToString() != "Player 3 Sanity")
-                {
-                    p3 = Int32.Parse(comboBox3.SelectedItem.ToString());
-                }
-                checkSanity();
-            }
-            catch
-            {
+        //private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (comboBox3.ToString() != "Player 3 Sanity")
+        //        {
+        //            p3 = Int32.Parse(comboBox3.SelectedItem.ToString());
+        //        }
+        //        checkSanity();
+        //    }
+        //    catch
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
-        //p4
-        private void checkBox22_CheckedChanged(object sender, EventArgs e)
-        {
-            comboBox1.Enabled = true;
-            if (checkBox22.Checked)
-            {
-                totalPlayers = 4;
-                comboBox2.Enabled = true;
-                comboBox3.Enabled = true;
-                comboBox4.Enabled = true;
-                comboBox2.Visible = true;
-                comboBox3.Visible = true;
-                comboBox4.Visible = true;
-                checkBox19.Visible = false;
-                checkBox21.Visible = false;
-                checkBox20.Visible = false;
-            }
-            else
-            {
-                totalPlayers = 0;
-                comboBox2.Enabled = false;
-                comboBox3.Enabled = false;
-                comboBox4.Enabled = false;
-                comboBox2.Visible = true;
-                comboBox3.Visible = true;
-                comboBox4.Visible = true;
-                checkBox19.Visible = true;
-                checkBox21.Visible = true;
-                checkBox20.Visible = true;
-            }
+        ////p4
+        //private void checkBox22_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    comboBox1.Enabled = true;
+        //    if (checkBox22.Checked)
+        //    {
+        //        totalPlayers = 4;
+        //        comboBox2.Enabled = true;
+        //        comboBox3.Enabled = true;
+        //        comboBox4.Enabled = true;
+        //        comboBox2.Visible = true;
+        //        comboBox3.Visible = true;
+        //        comboBox4.Visible = true;
+        //        checkBox19.Visible = false;
+        //        checkBox21.Visible = false;
+        //        checkBox20.Visible = false;
+        //    }
+        //    else
+        //    {
+        //        totalPlayers = 0;
+        //        comboBox2.Enabled = false;
+        //        comboBox3.Enabled = false;
+        //        comboBox4.Enabled = false;
+        //        comboBox2.Visible = true;
+        //        comboBox3.Visible = true;
+        //        comboBox4.Visible = true;
+        //        checkBox19.Visible = true;
+        //        checkBox21.Visible = true;
+        //        checkBox20.Visible = true;
+        //    }
 
-        }
+        //}
 
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (comboBox4.ToString() != "Player 4 Sanity")
-                {
-                    p4 = Int32.Parse(comboBox4.SelectedItem.ToString());
-                }
-                checkSanity();
-            }
-            catch
-            {
+        //private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (comboBox4.ToString() != "Player 4 Sanity")
+        //        {
+        //            p4 = Int32.Parse(comboBox4.SelectedItem.ToString());
+        //        }
+        //        checkSanity();
+        //    }
+        //    catch
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         #endregion PlayerStuff
 
@@ -746,154 +746,154 @@ namespace Phasmophobia_Helper_App
             else label17.Visible = true;
 
 
-
+            #region old checks
             //1,7 orb   4,8 SpiritBox    6,9 Fingies      10,11 EMF     13,12 Temps     14,15 Writing
-            if (EMF && Writing)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (EMF && SpiritBox)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (EMF && Orbs)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (EMF && Temps)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-            }
-            else if (EMF && Fingerprints)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (Writing && SpiritBox)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (Writing && Orbs)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (Writing && Temps)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (Writing && Fingerprints)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (SpiritBox && Fingerprints)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (SpiritBox && Orbs)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-            }
-            else if (SpiritBox && Temps)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (Orbs && Temps)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            else if (Orbs && Fingerprints)
-            {
-                
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-            }
-            else if (Temps && Fingerprints)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-            }
-            else
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            
+            //if (EMF && Writing)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = false; checkBox12.Visible = false;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (EMF && SpiritBox)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = false; checkBox9.Visible = false;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = false; checkBox12.Visible = false;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (EMF && Orbs)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = false; checkBox9.Visible = false;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (EMF && Temps)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = false; checkBox8.Visible = false;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = false; checkBox15.Visible = false;
+            //}
+            //else if (EMF && Fingerprints)
+            //{
+            //    checkBox1.Visible = false; checkBox7.Visible = false;
+            //    checkBox4.Visible = false; checkBox8.Visible = false;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (Writing && SpiritBox)
+            //{
+            //    checkBox1.Visible = false; checkBox7.Visible = false;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (Writing && Orbs)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = false; checkBox8.Visible = false;
+            //    checkBox6.Visible = false; checkBox9.Visible = false;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (Writing && Temps)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = false; checkBox9.Visible = false;
+            //    checkBox10.Visible = false; checkBox11.Visible = false;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (Writing && Fingerprints)
+            //{
+            //    checkBox1.Visible = false; checkBox7.Visible = false;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = false; checkBox12.Visible = false;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (SpiritBox && Fingerprints)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = false; checkBox11.Visible = false;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (SpiritBox && Orbs)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = false; checkBox15.Visible = false;
+            //}
+            //else if (SpiritBox && Temps)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = false; checkBox11.Visible = false;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (Orbs && Temps)
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = false; checkBox9.Visible = false;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+            //else if (Orbs && Fingerprints)
+            //{
+
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = false; checkBox11.Visible = false;
+            //    checkBox13.Visible = false; checkBox12.Visible = false;
+            //    checkBox14.Visible = false; checkBox15.Visible = false;
+            //}
+            //else if (Temps && Fingerprints)
+            //{
+            //    checkBox1.Visible = false; checkBox7.Visible = false;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = false; checkBox15.Visible = false;
+            //}
+            //else
+            //{
+            //    checkBox1.Visible = true; checkBox7.Visible = true;
+            //    checkBox4.Visible = true; checkBox8.Visible = true;
+            //    checkBox6.Visible = true; checkBox9.Visible = true;
+            //    checkBox10.Visible = true; checkBox11.Visible = true;
+            //    checkBox13.Visible = true; checkBox12.Visible = true;
+            //    checkBox14.Visible = true; checkBox15.Visible = true;
+            //}
+
 
             if (EMF && Fingerprints && Temps)
             {
@@ -904,7 +904,7 @@ namespace Phasmophobia_Helper_App
                 checkBox13.Visible = true; checkBox12.Visible = true;
                 checkBox14.Visible = false; checkBox15.Visible = false;
                 Ghost = "Banshee";
-            } 
+            }
             else if (Writing && SpiritBox && Temps)
             {
 
@@ -1021,7 +1021,7 @@ namespace Phasmophobia_Helper_App
                 Ghost = "Poltergeist";
             }
             else Ghost = "Unknown";
-
+            #endregion old checks
 
             //Ghost Orb - checkBox1.Visible=true;checkBox7.Visible=true;
             //Spirit Box - checkBox4.Visible=true;checkBox8.Visible=true;
@@ -1207,15 +1207,15 @@ namespace Phasmophobia_Helper_App
 
         private void button1_Click(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = 10;
-            comboBox2.SelectedIndex = 10;
-            comboBox3.SelectedIndex = 10;
-            comboBox4.SelectedIndex = 10;
+            //comboBox1.SelectedIndex = 10;
+            //comboBox2.SelectedIndex = 10;
+            //comboBox3.SelectedIndex = 10;
+            //comboBox4.SelectedIndex = 10;
             checkBox1.Checked = false;
-            checkBox2.Checked = false;
-            checkBox3.Checked = false;
+            //checkBox2.Checked = false;
+            //checkBox3.Checked = false;
             checkBox4.Checked = false;
-            checkBox5.Checked = false;
+            //checkBox5.Checked = false;
             checkBox6.Checked = false;
             checkBox10.Checked = false;
             checkBox14.Checked = false;
@@ -1225,206 +1225,206 @@ namespace Phasmophobia_Helper_App
         private void timer1_Tick_1(object sender, EventArgs e)
         {
             
-            if (hunt)
-            {
-                if (huntTimer < 10)
-                {
-                    label2.Text = "0:0"+huntTimer.ToString();
-                }
-                else
-                {
-                    label2.Text = "0:"+huntTimer.ToString();
-                }
+            //if (hunt)
+            //{
+            //    if (huntTimer < 10)
+            //    {
+            //        label2.Text = "0:0"+huntTimer.ToString();
+            //    }
+            //    else
+            //    {
+            //        label2.Text = "0:"+huntTimer.ToString();
+            //    }
                 
-                if (huntTimer == 0)
-                {
-                    if (SoundSetting) player.Play();
-                    button10.Text = "Hunt";
-                    button11.Text = "Round Start";
-                    hunt = false;
-                    timer1.Enabled = false;
-                }
-                huntTimer--;
+            //    if (huntTimer == 0)
+            //    {
+            //        if (SoundSetting) player.Play();
+            //        button10.Text = "Hunt";
+            //        button11.Text = "Round Start";
+            //        hunt = false;
+            //        timer1.Enabled = false;
+            //    }
+            //    huntTimer--;
 
-            }
-            else
-            {
-                double temp = 0;
-                double temp2 = 0;
-                roundTimer--;
-                temp = roundTimer/60;
-                temp2 = (Math.Floor(temp) * 60) - roundTimer;
-                temp2 = Math.Abs(temp2);
-                if (temp2 < 10)
-                {
-                    label2.Text = temp + ":0" + temp2;
-                }
-                else
-                {
-                    label2.Text = temp + ":" + temp2;
-                }
-                if (roundTimer == 0)
-                {
-                    if (SoundSetting) player.Play();
-                    button10.Text = "Hunt";
-                    button11.Text = "Round Start";
-                    timer1.Enabled = false;
-                }
-            }
+            //}
+            //else
+            //{
+            //    double temp = 0;
+            //    double temp2 = 0;
+            //    roundTimer--;
+            //    temp = roundTimer/60;
+            //    temp2 = (Math.Floor(temp) * 60) - roundTimer;
+            //    temp2 = Math.Abs(temp2);
+            //    if (temp2 < 10)
+            //    {
+            //        label2.Text = temp + ":0" + temp2;
+            //    }
+            //    else
+            //    {
+            //        label2.Text = temp + ":" + temp2;
+            //    }
+            //    if (roundTimer == 0)
+            //    {
+            //        if (SoundSetting) player.Play();
+            //        button10.Text = "Hunt";
+            //        button11.Text = "Round Start";
+            //        timer1.Enabled = false;
+            //    }
+            //}
 
         }
         
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox2.Checked == true)
-            {
-                difficulty = 1;
-                checkBox5.Visible = false;
-                checkBox3.Visible = false;
-            }
-            else
-            {
-                checkBox5.Visible = true;
-                checkBox3.Visible = true;
-            }
-            if (timer1.Enabled == false)
-            {
-                label2.Text="5:00";
-            }
-        }
+        //private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    if (checkBox2.Checked == true)
+        //    {
+        //        difficulty = 1;
+        //        checkBox5.Visible = false;
+        //        checkBox3.Visible = false;
+        //    }
+        //    else
+        //    {
+        //        checkBox5.Visible = true;
+        //        checkBox3.Visible = true;
+        //    }
+        //    if (timer1.Enabled == false)
+        //    {
+        //        label2.Text="5:00";
+        //    }
+        //}
         
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox5.Checked == true)
-            {
-                difficulty = 3;
-                checkBox2.Visible = false;
-                checkBox3.Visible = false;
-                if (timer1.Enabled == false)
-                {
-                    label2.Text = "0:00";
-                }
-            }
-            else
-            {
-                if (timer1.Enabled == false)
-                {
-                    label2.Text = "5:00";
-                }
-                difficulty = 1;
-                checkBox2.Visible = true;
-                checkBox3.Visible = true;
-            }
+            //if (checkBox5.Checked == true)
+            //{
+            //    difficulty = 3;
+            //    checkBox2.Visible = false;
+            //    checkBox3.Visible = false;
+            //    if (timer1.Enabled == false)
+            //    {
+            //        label2.Text = "0:00";
+            //    }
+            //}
+            //else
+            //{
+            //    if (timer1.Enabled == false)
+            //    {
+            //        label2.Text = "5:00";
+            //    }
+            //    difficulty = 1;
+            //    checkBox2.Visible = true;
+            //    checkBox3.Visible = true;
+            //}
             
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox3.Checked == true)
-            {
-                difficulty = 2;
-                checkBox2.Visible = false;
-                checkBox5.Visible = false;
-                if (timer1.Enabled == false)
-                {
-                    label2.Text = "2:00";
-                }
-            }
-            else
-            {
-                difficulty = 1;
-                checkBox2.Visible = true;
-                checkBox5.Visible = true;
-                if (timer1.Enabled == false)
-                {
-                    label2.Text = "5:00";
-                }
-            }
+        //private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    //if (checkBox3.Checked == true)
+        //    //{
+        //    //    difficulty = 2;
+        //    //    checkBox2.Visible = false;
+        //    //    checkBox5.Visible = false;
+        //    //    if (timer1.Enabled == false)
+        //    //    {
+        //    //        label2.Text = "2:00";
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    difficulty = 1;
+        //    //    checkBox2.Visible = true;
+        //    //    checkBox5.Visible = true;
+        //    //    if (timer1.Enabled == false)
+        //    //    {
+        //    //        label2.Text = "5:00";
+        //    //    }
+        //    //}
            
-        }
+        //}
 
-        private void button10_Click(object sender, EventArgs e)
-        {
-            if (timer1.Enabled == true)
-            {
-                timer1.Enabled = false;
-                hunt = false;
-                button10.Text = "Hunt";
-                button11.Text = "Round Start";
+        //private void button10_Click(object sender, EventArgs e)
+        //{
+        //    if (timer1.Enabled == true)
+        //    {
+        //        timer1.Enabled = false;
+        //        hunt = false;
+        //        button10.Text = "Hunt";
+        //        button11.Text = "Round Start";
 
-            }
-            else
-            {
-                hunt = true;
-                button10.Text = "Stop";
-                button11.Text = "Stop";
-                switch (difficulty)
-                {
-                    case 1:
-                        huntTimer = 24;
-                        label2.Text = "0:25";
-                        break;
-                    case 2:
-                        huntTimer = 34;
-                        label2.Text = "0:40";
-                        break;
-                    case 3:
-                        huntTimer = 49;
-                        label2.Text = "0:55";
-                        break;
-                    default:
-                        huntTimer = 24;
-                        label2.Text = "0:25";
-                        break;
-                }
-                timer1.Enabled = true;
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        hunt = true;
+        //        button10.Text = "Stop";
+        //        button11.Text = "Stop";
+        //        switch (difficulty)
+        //        {
+        //            case 1:
+        //                huntTimer = 24;
+        //                label2.Text = "0:25";
+        //                break;
+        //            case 2:
+        //                huntTimer = 34;
+        //                label2.Text = "0:40";
+        //                break;
+        //            case 3:
+        //                huntTimer = 49;
+        //                label2.Text = "0:55";
+        //                break;
+        //            default:
+        //                huntTimer = 24;
+        //                label2.Text = "0:25";
+        //                break;
+        //        }
+        //        timer1.Enabled = true;
+        //    }
+        //}
 
-        private void button11_Click(object sender, EventArgs e)
-        {
-            if (timer1.Enabled != true)
-            {
-                button10.Text = "Stop";
-                button11.Text = "Stop";
-                switch (difficulty)
-                {
-                    case 1:
-                        roundTimer = 300;
-                        hunt = false;
-                        timer1.Enabled = true;
-                        label2.Text = "5:00";
-                        break;
-                    case 2:
-                        roundTimer = 120;
-                        hunt = false;
-                        timer1.Enabled = true;
-                        label2.Text = "2:00";
-                        break;
-                    case 3:
-                        roundTimer = 0;
-                        button10.Text = "Hunt";
-                        button11.Text = "Round Start";
-                        break;
-                    default:
-                        roundTimer = 300;
-                        hunt = false;
-                        timer1.Enabled = true;
-                        label2.Text = "5:00";
-                        break;
-                }
-            }
-            else
-            {
+        //private void button11_Click(object sender, EventArgs e)
+        //{
+        //    if (timer1.Enabled != true)
+        //    {
+        //        button10.Text = "Stop";
+        //        button11.Text = "Stop";
+        //        switch (difficulty)
+        //        {
+        //            case 1:
+        //                roundTimer = 300;
+        //                hunt = false;
+        //                timer1.Enabled = true;
+        //                label2.Text = "5:00";
+        //                break;
+        //            case 2:
+        //                roundTimer = 120;
+        //                hunt = false;
+        //                timer1.Enabled = true;
+        //                label2.Text = "2:00";
+        //                break;
+        //            case 3:
+        //                roundTimer = 0;
+        //                button10.Text = "Hunt";
+        //                button11.Text = "Round Start";
+        //                break;
+        //            default:
+        //                roundTimer = 300;
+        //                hunt = false;
+        //                timer1.Enabled = true;
+        //                label2.Text = "5:00";
+        //                break;
+        //        }
+        //    }
+        //    else
+        //    {
 
-                timer1.Enabled = false;
-                hunt = false;
-                button10.Text = "Hunt";
-                button11.Text = "Round Start";
+        //        timer1.Enabled = false;
+        //        hunt = false;
+        //        button10.Text = "Hunt";
+        //        button11.Text = "Round Start";
                 
-            }
+        //    }
             
-        }
+        //}
 
 
         public void checkSanity()
@@ -1463,11 +1463,11 @@ namespace Phasmophobia_Helper_App
 
             if (modifier == 77)
             {
-                label10.Text = "Hunt Chance: ~Unknown";
+                //label10.Text = "Hunt Chance: ~Unknown";
             }
             else
             {
-                label10.Text = "Hunt Chance: ~"+HuntChance.ToString();
+                //label10.Text = "Hunt Chance: ~"+HuntChance.ToString();
                 if (label22.Visible == true)
                 {
                     //demon
@@ -1476,7 +1476,7 @@ namespace Phasmophobia_Helper_App
                     if (huntCalc2 < 50) HuntChance2 = 0;
                     else if (huntCalc2 >= 50 && huntCalc2 < 75) HuntChance2 = 10;
                     else if (huntCalc2 >= 75) HuntChance2 = 16.50;
-                    label9.Text = "Possible Hunt: ~" + HuntChance2.ToString();
+                    //label9.Text = "Possible Hunt: ~" + HuntChance2.ToString();
                 }
                 else if (label15.Visible == true)
                 {
@@ -1486,11 +1486,11 @@ namespace Phasmophobia_Helper_App
                     if (huntCalc2 < 50) HuntChance2 = 0;
                     else if (huntCalc2 >= 50 && huntCalc2 < 75) HuntChance2 = 10;
                     else if (huntCalc2 >= 75) HuntChance2 = 16.50;
-                    label9.Text = "Possible Hunt: ~" + HuntChance2.ToString();
+                    //label9.Text = "Possible Hunt: ~" + HuntChance2.ToString();
                 }
                 else
                 {
-                    label9.Text = "Possible Hunt: ~0";
+                    //label9.Text = "Possible Hunt: ~0";
                 }
             }
             if (!isRecieving) needsSend=true ; else isRecieving = false;
@@ -1513,18 +1513,18 @@ namespace Phasmophobia_Helper_App
 
         public void showHideTimer(bool show)
         {
-            if (show)
-            {
-                label2.Visible = true;
-                button10.Visible = true;
-                button11.Visible = true;
-            }
-            else
-            {
-                label2.Visible = false;
-                button10.Visible = false;
-                button11.Visible = false;
-            }
+            //if (show)
+            //{
+            //    label2.Visible = true;
+            //    button10.Visible = true;
+            //    button11.Visible = true;
+            //}
+            //else
+            //{
+            //    label2.Visible = false;
+            //    button10.Visible = false;
+            //    button11.Visible = false;
+            //}
         }
 
         public void KeepOnTop(bool keep)

@@ -30,23 +30,23 @@ namespace Phasmophobia_Helper_App
                 if (SlayersPhasmophobiaHelper.GetValue("Sound").ToString() == "True")
                 {
                     form.SoundSetting = true;
-                    checkBox1.Checked = true;
+                    //checkBox1.Checked = true;
                 }
                 else
                 {
 
                     form.SoundSetting = false;
-                    checkBox1.Checked = false;
+                    //checkBox1.Checked = false;
                 }
                 if (SlayersPhasmophobiaHelper.GetValue("Timer").ToString() == "True")
                 {
                     form.showHideTimer(true);
-                    checkBox2.Checked = false;
+                    //checkBox2.Checked = false;
                 }
                 else
                 {
                     form.showHideTimer(false);
-                    checkBox2.Checked = true;
+                    //checkBox2.Checked = true;
                 }
                 if (SlayersPhasmophobiaHelper.GetValue("KeepOnTop").ToString() == "True")
                 {
@@ -105,15 +105,15 @@ namespace Phasmophobia_Helper_App
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
-            {
-                SlayersPhasmophobiaHelper.SetValue("Sound", true);
-            }
-            else
-            {
-                SlayersPhasmophobiaHelper.SetValue("Sound", false);
-            }
-            SlayersPhasmophobiaHelper.Flush();
+            //if (checkBox1.Checked)
+            //{
+            //    SlayersPhasmophobiaHelper.SetValue("Sound", true);
+            //}
+            //else
+            //{
+            //    SlayersPhasmophobiaHelper.SetValue("Sound", false);
+            //}
+            //SlayersPhasmophobiaHelper.Flush();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -183,17 +183,17 @@ namespace Phasmophobia_Helper_App
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            if (!checkBox2.Checked)
-            {
-                form.showHideTimer(true);
-                SlayersPhasmophobiaHelper.SetValue("Timer", true);
-            }
-            else
-            {
-                form.showHideTimer(false);
-                SlayersPhasmophobiaHelper.SetValue("Timer", false);
-            }
-            SlayersPhasmophobiaHelper.Flush();
+            //if (!checkBox2.Checked)
+            //{
+            //    form.showHideTimer(true);
+            //    SlayersPhasmophobiaHelper.SetValue("Timer", true);
+            //}
+            //else
+            //{
+            //    form.showHideTimer(false);
+            //    SlayersPhasmophobiaHelper.SetValue("Timer", false);
+            //}
+            //SlayersPhasmophobiaHelper.Flush();
         }
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
