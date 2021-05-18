@@ -48,7 +48,7 @@ namespace Phasmophobia_Helper_App
         private const UInt32 SWP_NOMOVE = 0x0002;
         private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
         public int textR = 255, textG = 255, textB = 255, bgR = 64, bgG = 64, bgB = 64;
-        public Label[] Ghosts = new Label[12];
+        public Label[] Ghosts = new Label[14];
         Maps mp;
         Settings set;
         int huntTimer = 0;
@@ -74,6 +74,8 @@ namespace Phasmophobia_Helper_App
             Ghosts[9] = label21;
             Ghosts[10] = label22;
             Ghosts[11] = label23;
+            Ghosts[12] = label2;
+            Ghosts[13] = label6;
 
         }
 
@@ -745,6 +747,16 @@ namespace Phasmophobia_Helper_App
                 label17.Visible = false;
             else label17.Visible = true;
 
+            //Yokai
+            if (EMF || Fingerprints || Temps || AntiOrbs || AntiWriting || AntiSpiritBox)
+                label2.Visible = false;
+            else label2.Visible = true;
+
+            //Hantu
+            if (EMF || SpiritBox || Temps || AntiFingerprints || AntiOrbs || AntiWriting)
+                label6.Visible = false;
+            else label6.Visible = true;
+
 
             #region old checks
             //1,7 orb   4,8 SpiritBox    6,9 Fingies      10,11 EMF     13,12 Temps     14,15 Writing
@@ -1016,9 +1028,25 @@ namespace Phasmophobia_Helper_App
                 checkBox14.Visible = true; checkBox15.Visible = true;
                 Ghost = "Yurei";
             }
-            else if (Orbs && Fingerprints)
+            else if (SpiritBox && Orbs && Writing)
             {
-                Ghost = "Poltergeist";
+                checkBox1.Visible = true; checkBox7.Visible = true;
+                checkBox4.Visible = true; checkBox8.Visible = true;
+                checkBox6.Visible = false; checkBox9.Visible = false;
+                checkBox10.Visible = false; checkBox11.Visible = false;
+                checkBox13.Visible = false; checkBox12.Visible = false;
+                checkBox14.Visible = true; checkBox15.Visible = true;
+                Ghost = "Yokai";
+            }
+            else if (Fingerprints && Orbs && Writing)
+            {
+                checkBox1.Visible = true; checkBox7.Visible = true;
+                checkBox4.Visible = false; checkBox8.Visible = false;
+                checkBox6.Visible = true; checkBox9.Visible = true;
+                checkBox10.Visible = false; checkBox11.Visible = false;
+                checkBox13.Visible = false; checkBox12.Visible = false;
+                checkBox14.Visible = true; checkBox15.Visible = true;
+                Ghost = "Yokai";
             }
             else Ghost = "Unknown";
             #endregion old checks
@@ -1132,6 +1160,18 @@ namespace Phasmophobia_Helper_App
                 checkBox14.Visible = true; checkBox15.Visible = true;
                 checkBox4.Visible = true; checkBox8.Visible = true;
             }
+            if (label6.Visible == true)
+            {
+                checkBox6.Visible = true; checkBox9.Visible = true;
+                checkBox1.Visible = true; checkBox7.Visible = true;
+                checkBox14.Visible = true; checkBox15.Visible = true;
+            }
+            if (label2.Visible == true)
+            {
+                checkBox4.Visible=true;checkBox8.Visible=true;
+                checkBox1.Visible = true; checkBox7.Visible = true;
+                checkBox14.Visible = true; checkBox15.Visible = true;
+            }
 
             int gCount = 0;
             string possibleGhost = "";
@@ -1174,19 +1214,19 @@ namespace Phasmophobia_Helper_App
                         label7.Text = "Drops sanity if looked at, take a photo to make it go away.";
                         break;
                     case "Jinn":
-                        label7.Text = "Power hungry, kill the breaker.  Territorial, will attack when threatened.\n With power on, it moves faster";
+                        label7.Text = "Power hungry, kill the breaker.  \n With power on, it moves faster, until it gets close to you.";
                         break;
                     case "Yurei":
                         label7.Text = "Strong effect on sanity.  Smudge to prevent from wandering.";
                         break;
                     case "Mare":
-                        label7.Text = "Lights on! If any light is on in the room with it, it decreases it's chance to hunt";
+                        label7.Text = "If the light is on in it's room the hunt sanity is 40, but if it is off, it is 60.";
                         break;
                     case "Demon":
-                        label7.Text = "Very aggressive, be careful. Ask Ouija board if demon (won't lower sanity)";
+                        label7.Text = "Will hunt at 65 sanity instead of 50, be careful. Ask Ouija board if demon (won't lower sanity)";
                         break;
                     case "Banshee":
-                        label7.Text = "Will target one player badly.  Less aggressive when near a crucifix.";
+                        label7.Text = "Will target one player until they die.  Crucifix range increased from 3m to 5m.";
                         break;
                     case "Revenant":
                         label7.Text = "Travels fast when hunting, hiding will slow it down";
@@ -1199,6 +1239,12 @@ namespace Phasmophobia_Helper_App
                         break;
                     case "Wraith":
                         label7.Text = "Almost never touches the ground.  Use salt.  It can see through doors.";
+                        break;
+                    case "Yokai":
+                        label7.Text = "It can only hear when you when it is close to you.\nTalking makes it angry.";
+                        break;
+                    case "Hantu":
+                        label7.Text = "It hates cold temperatures, and will move faster in cold temps.\nIt moves slower in warmer areas.";
                         break;
                 }
             }
