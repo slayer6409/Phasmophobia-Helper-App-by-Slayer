@@ -136,6 +136,7 @@
     <None Include="bin\Debug\Maps\9hfynzo7x2261.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\Debug\Maps\2251267947_preview_WillowStreetHouse_Map.jpg" />
     <Content Include="ghosticon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -124,6 +124,9 @@
   <data name="Edgefield_Street_House_Map" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Maps\Edgefield_Street_House_Map.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RidgeviewRoadHouse_Map" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\Maps\RidgeviewRoadHouse_Map.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="BleasdaleFarmHouseMap" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Maps\BleasdaleFarmHouseMap.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -133,13 +136,13 @@
   <data name="Asylum_map" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Maps\Asylum_map.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="9hfynzo7x2261" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\Maps\9hfynzo7x2261.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Tangle_Wood_Street_House_Map_1.1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\bin\Debug\Maps\Tangle_Wood_Street_House_Map_1.1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RidgeviewRoadHouse_Map" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\Maps\RidgeviewRoadHouse_Map.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="9hfynzo7x2261" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\Maps\9hfynzo7x2261.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="2251267947_preview_WillowStreetHouse_Map" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\Maps\2251267947_preview_WillowStreetHouse_Map.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

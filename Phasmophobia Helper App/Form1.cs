@@ -11,10 +11,17 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Net.Sockets;
 using System.Net;
-using System.Text;
 
 namespace Phasmophobia_Helper_App
 {
+    public enum evidence
+    {
+        Orbs, EMF, Fingerprints, SpiritBox, Temps, Writing, DOTS
+    }
+    public enum antiEvidence
+    {
+        AntiOrbs, AntiEMF, AntiFingerprints, AntiSpiritBox, AntiTemps, AntiWriting, AntiDOTS
+    }
 
     public partial class Form1 : Form
     {
@@ -28,8 +35,10 @@ namespace Phasmophobia_Helper_App
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
         public bool sync = false;
-        public bool Orbs = false, EMF = false, Fingerprints = false, SpiritBox = false, Temps = false, Writing = false;
-        public bool AntiOrbs = false, AntiEMF = false, AntiFingerprints = false, AntiSpiritBox = false, AntiTemps = false, AntiWriting = false;
+        Dictionary<evidence, CheckBox> evidenceToCheck = new Dictionary<evidence, CheckBox>();
+        Dictionary<antiEvidence, CheckBox> antiToCheck = new Dictionary<antiEvidence, CheckBox>();
+        public bool Orbs = false, EMF = false, Fingerprints = false, SpiritBox = false, Temps = false, Writing = false, DOTS=false;
+        public bool AntiOrbs = false, AntiEMF = false, AntiFingerprints = false, AntiSpiritBox = false, AntiTemps = false, AntiWriting = false, AntiDOTS=false;
         public string Ghost = "Unknown";
         public string Evidence1 = "";
         public string Evidence2 = "";
@@ -48,13 +57,54 @@ namespace Phasmophobia_Helper_App
         private const UInt32 SWP_NOMOVE = 0x0002;
         private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
         public int textR = 255, textG = 255, textB = 255, bgR = 64, bgG = 64, bgB = 64;
-        public Label[] Ghosts = new Label[14];
+        public Label[] Ghosts = new Label[16];
         Maps mp;
         Settings set;
         int huntTimer = 0;
         System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"c:\Windows\Media\chimes.wav");
         public bool hunt = false;
+        public GhostTypes[] ghostTypes =
+        {
+            new GhostTypes("Spirit",evidence.EMF,evidence.SpiritBox,evidence.Writing,"Smudge stick affects ghost longer."),
+            new GhostTypes("Wraith", evidence.EMF, evidence.SpiritBox, evidence.DOTS,"Almost never touches the ground.  Use salt.  It can see through doors."),
+            new GhostTypes("Phantom", evidence.Fingerprints, evidence.SpiritBox, evidence.DOTS, "Drops sanity if looked at, take a photo to make it go away."),
+            new GhostTypes("Poltergeist", evidence.Fingerprints, evidence.SpiritBox, evidence.Writing,"Can throw multiple objects.  Stay in empty rooms."),
+            new GhostTypes("Banshee",evidence.Fingerprints,evidence.Orbs,evidence.DOTS,"Will target one player until they die.  Crucifix range increased from 3m to 5m."),
+            new GhostTypes("Jinn",evidence.EMF,evidence.Fingerprints,evidence.Temps,"Power hungry, kill the breaker.  \n With power on, it moves faster, until it gets close to you."),
+            new GhostTypes("Mare",evidence.SpiritBox,evidence.Orbs,evidence.Writing,"If the light is on in it's room the hunt sanity is 40, but if it is off, it is 60."),
+            new GhostTypes("Revenant",evidence.Orbs,evidence.Temps,evidence.Writing,"Travels fast when hunting, hiding will slow it down"),
+            new GhostTypes("Shade",evidence.EMF,evidence.Temps,evidence.Writing,"Shy guy, will be harder to find if in groups.\nWill not hunt if multiple people are around."),
+            new GhostTypes("Demon",evidence.Fingerprints,evidence.Temps,evidence.Writing,"Will hunt at 75 sanity instead of 50, be careful. Ask Ouija board if demon (won't lower sanity)"),
+            new GhostTypes("Yurei",evidence.Orbs,evidence.Temps,evidence.DOTS,"Strong effect on sanity.  Smudge to prevent from wandering."),
+            new GhostTypes("Oni",evidence.EMF,evidence.Temps,evidence.DOTS,"More active when players are around / doing things nearby."),
+            new GhostTypes("Hantu",evidence.Fingerprints,evidence.Orbs,evidence.Temps,"It hates cold temperatures, and will move faster in cold temps.\nIt moves slower in warmer areas."),
+            new GhostTypes("Yokai",evidence.Orbs,evidence.SpiritBox,evidence.DOTS,"It can only hear when you when it is close to you.\nTalking makes it angry."),
+            new GhostTypes("Goryo",evidence.EMF,evidence.Fingerprints,evidence.DOTS,"It doesn't wander very far, and getting DOTS evidence can only be seen via camera."),
+            new GhostTypes("Myling",evidence.EMF,evidence.Fingerprints,evidence.Writing,"It makes a lot of noise, except when it is hunting.")
+        };
 
+        public evidence inverse(antiEvidence anti)
+        {
+            if (anti == antiEvidence.AntiDOTS) return evidence.DOTS;
+            if (anti == antiEvidence.AntiEMF) return evidence.EMF;
+            if (anti == antiEvidence.AntiFingerprints) return evidence.Fingerprints;
+            if (anti == antiEvidence.AntiOrbs) return evidence.Orbs;
+            if (anti == antiEvidence.AntiSpiritBox) return evidence.SpiritBox;
+            if (anti == antiEvidence.AntiTemps) return evidence.Temps;
+            if (anti == antiEvidence.AntiWriting) return evidence.Writing;
+            return 0;
+        }
+        public antiEvidence inverse(evidence ev)
+        {
+            if (ev == evidence.DOTS) return antiEvidence.AntiDOTS;
+            if (ev == evidence.EMF) return antiEvidence.AntiEMF;
+            if (ev == evidence.Fingerprints) return antiEvidence.AntiFingerprints;
+            if (ev == evidence.Orbs) return antiEvidence.AntiOrbs;
+            if (ev == evidence.SpiritBox) return antiEvidence.AntiSpiritBox;
+            if (ev == evidence.Temps) return antiEvidence.AntiTemps;
+            if (ev == evidence.Writing) return antiEvidence.AntiWriting;
+            return 0;
+        }
 
         public Form1()
         {
@@ -76,7 +126,22 @@ namespace Phasmophobia_Helper_App
             Ghosts[11] = label23;
             Ghosts[12] = label2;
             Ghosts[13] = label6;
-
+            Ghosts[14] = label8;
+            Ghosts[15] = label9;
+            evidenceToCheck.Add(evidence.DOTS, checkBox3);
+            evidenceToCheck.Add(evidence.EMF, checkBox10);
+            evidenceToCheck.Add(evidence.Fingerprints, checkBox6);
+            evidenceToCheck.Add(evidence.Orbs, checkBox1);
+            evidenceToCheck.Add(evidence.SpiritBox, checkBox4);
+            evidenceToCheck.Add(evidence.Temps, checkBox13);
+            evidenceToCheck.Add(evidence.Writing, checkBox14);
+            antiToCheck.Add(antiEvidence.AntiDOTS, checkBox2);
+            antiToCheck.Add(antiEvidence.AntiEMF, checkBox11);
+            antiToCheck.Add(antiEvidence.AntiFingerprints, checkBox9);
+            antiToCheck.Add(antiEvidence.AntiOrbs, checkBox7);
+            antiToCheck.Add(antiEvidence.AntiSpiritBox, checkBox8);
+            antiToCheck.Add(antiEvidence.AntiTemps, checkBox12);
+            antiToCheck.Add(antiEvidence.AntiWriting, checkBox15);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -279,6 +344,7 @@ namespace Phasmophobia_Helper_App
         #endregion PlayerStuff
 
         #region Evidence
+
         //Ghost Orb
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -302,7 +368,6 @@ namespace Phasmophobia_Helper_App
             checkGhost();
 
         }
-
         private void checkBox7_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox7.CheckState != CheckState.Indeterminate)
@@ -370,6 +435,7 @@ namespace Phasmophobia_Helper_App
 
             checkGhost();
         }
+
         //Fingerprints
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
@@ -393,7 +459,6 @@ namespace Phasmophobia_Helper_App
             }
             checkGhost();
         }
-
         private void checkBox9_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox9.CheckState != CheckState.Indeterminate)
@@ -460,6 +525,7 @@ namespace Phasmophobia_Helper_App
 
             checkGhost();
         }
+
         //Freezing Temperatures
         private void checkBox13_CheckedChanged(object sender, EventArgs e)
         {
@@ -548,6 +614,49 @@ namespace Phasmophobia_Helper_App
             checkGhost();
         }
 
+        //DOTS
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.CheckState != CheckState.Indeterminate)
+            {
+                if (checkBox2.Checked)
+                {
+                    checkBox3.CheckState = CheckState.Indeterminate;
+                    checkBox3.Enabled = false;
+                    AntiDOTS = true;
+                }
+                else
+                {
+                    checkBox3.CheckState = CheckState.Unchecked;
+                    checkBox3.Enabled = true;
+                    AntiDOTS = false;
+
+                }
+            }
+            checkGhost();
+        }
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (checkBox3.CheckState != CheckState.Indeterminate)
+            {
+                if (checkBox3.Checked)
+                {
+                    checkBox2.CheckState = CheckState.Indeterminate;
+                    checkBox2.Enabled = false;
+                    DOTS = true;
+                }
+                else
+                {
+
+                    checkBox2.CheckState = CheckState.Unchecked;
+                    checkBox2.Enabled = true;
+                    DOTS = false;
+                }
+            }
+
+            checkGhost();
+        }
 
         #endregion Evidence
 
@@ -687,507 +796,64 @@ namespace Phasmophobia_Helper_App
 
         public void checkGhost()
         {
-            //demon
-            if (EMF||Fingerprints||Orbs||AntiTemps||AntiSpiritBox||AntiWriting)
-                label22.Visible = false;
-            else label22.Visible = true;
-
-            //spirit
-            if (EMF || Temps || Orbs||AntiFingerprints||AntiSpiritBox|| AntiWriting)
-                label12.Visible = false;
-            else label12.Visible = true;
-
-            //banshee
-            if (Writing||SpiritBox||Orbs||AntiEMF||AntiFingerprints||AntiTemps)
-                label14.Visible = false;
-            else label14.Visible = true;
-
-            //jinn
-            if (Writing || Temps || Fingerprints||AntiSpiritBox||AntiOrbs||AntiEMF)
-                label20.Visible = false;
-            else label20.Visible = true;
-            
-            //mare
-            if (EMF||Writing||Fingerprints||AntiOrbs||AntiSpiritBox||AntiTemps)
-                label15.Visible = false;
-            else label15.Visible = true;
-
-            //oni
-            if (Fingerprints || Temps || Orbs||AntiWriting||AntiSpiritBox||AntiEMF)
-                label23.Visible = false;
-            else label23.Visible = true;
-
-            //phantom
-            if (Writing||Fingerprints||SpiritBox||AntiEMF||AntiOrbs||AntiTemps)
-                label13.Visible = false;
-            else label13.Visible = true;
-
-            //poltergeist
-            if (EMF || Temps || Writing||AntiFingerprints||AntiOrbs||AntiSpiritBox)
-                label19.Visible = false;
-            else label19.Visible = true;
-
-            //revenant
-            if (SpiritBox||Temps||Orbs||AntiEMF||AntiFingerprints||AntiWriting)
-                label21.Visible = false;
-            else label21.Visible = true;
-
-            //shade
-            if (Fingerprints || SpiritBox || Temps||AntiWriting||AntiOrbs||AntiEMF)
-                label16.Visible = false;
-            else label16.Visible = true;
-
-            //wraith
-            if (EMF||Writing||Orbs||AntiFingerprints||AntiSpiritBox||AntiTemps)
-                label18.Visible = false;
-            else label18.Visible = true;
-
-            //yurei
-            if (EMF || Fingerprints || SpiritBox||AntiTemps||AntiWriting||AntiOrbs)
-                label17.Visible = false;
-            else label17.Visible = true;
-
-            //Yokai
-            if (EMF || Fingerprints || Temps || AntiOrbs || AntiWriting || AntiSpiritBox)
-                label2.Visible = false;
-            else label2.Visible = true;
-
-            //Hantu
-            if (EMF || SpiritBox || Temps || AntiFingerprints || AntiOrbs || AntiWriting)
-                label6.Visible = false;
-            else label6.Visible = true;
-
-
-            #region old checks
-            //1,7 orb   4,8 SpiritBox    6,9 Fingies      10,11 EMF     13,12 Temps     14,15 Writing
-            //if (EMF && Writing)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = false; checkBox12.Visible = false;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (EMF && SpiritBox)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = false; checkBox9.Visible = false;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = false; checkBox12.Visible = false;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (EMF && Orbs)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = false; checkBox9.Visible = false;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (EMF && Temps)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = false; checkBox8.Visible = false;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = false; checkBox15.Visible = false;
-            //}
-            //else if (EMF && Fingerprints)
-            //{
-            //    checkBox1.Visible = false; checkBox7.Visible = false;
-            //    checkBox4.Visible = false; checkBox8.Visible = false;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (Writing && SpiritBox)
-            //{
-            //    checkBox1.Visible = false; checkBox7.Visible = false;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (Writing && Orbs)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = false; checkBox8.Visible = false;
-            //    checkBox6.Visible = false; checkBox9.Visible = false;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (Writing && Temps)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = false; checkBox9.Visible = false;
-            //    checkBox10.Visible = false; checkBox11.Visible = false;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (Writing && Fingerprints)
-            //{
-            //    checkBox1.Visible = false; checkBox7.Visible = false;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = false; checkBox12.Visible = false;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (SpiritBox && Fingerprints)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = false; checkBox11.Visible = false;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (SpiritBox && Orbs)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = false; checkBox15.Visible = false;
-            //}
-            //else if (SpiritBox && Temps)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = false; checkBox11.Visible = false;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (Orbs && Temps)
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = false; checkBox9.Visible = false;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-            //else if (Orbs && Fingerprints)
-            //{
-
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = false; checkBox11.Visible = false;
-            //    checkBox13.Visible = false; checkBox12.Visible = false;
-            //    checkBox14.Visible = false; checkBox15.Visible = false;
-            //}
-            //else if (Temps && Fingerprints)
-            //{
-            //    checkBox1.Visible = false; checkBox7.Visible = false;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = false; checkBox15.Visible = false;
-            //}
-            //else
-            //{
-            //    checkBox1.Visible = true; checkBox7.Visible = true;
-            //    checkBox4.Visible = true; checkBox8.Visible = true;
-            //    checkBox6.Visible = true; checkBox9.Visible = true;
-            //    checkBox10.Visible = true; checkBox11.Visible = true;
-            //    checkBox13.Visible = true; checkBox12.Visible = true;
-            //    checkBox14.Visible = true; checkBox15.Visible = true;
-            //}
-
-
-            if (EMF && Fingerprints && Temps)
+            List<evidence> currentEvidence = new List<evidence>();
+            List<antiEvidence> currentAnti = new List<antiEvidence>();
+            if (currentEvidence.Count != 0) currentEvidence.Clear();
+            if (currentAnti.Count != 0) currentAnti.Clear();
+            //public bool AntiOrbs = false, AntiEMF = false, AntiFingerprints = false, AntiSpiritBox = false, AntiTemps = false, AntiWriting = false, AntiDOTS = false;
+            if (Orbs) currentEvidence.Add(evidence.Orbs);
+            if (EMF) currentEvidence.Add(evidence.EMF);
+            if (Fingerprints) currentEvidence.Add(evidence.Fingerprints);
+            if (SpiritBox) currentEvidence.Add(evidence.SpiritBox);
+            if (Temps) currentEvidence.Add(evidence.Temps);
+            if (Writing) currentEvidence.Add(evidence.Writing);
+            if (DOTS) currentEvidence.Add(evidence.DOTS);
+            if (AntiOrbs) currentAnti.Add(antiEvidence.AntiOrbs);
+            if (AntiEMF) currentAnti.Add(antiEvidence.AntiEMF);
+            if (AntiFingerprints) currentAnti.Add(antiEvidence.AntiFingerprints);
+            if (AntiSpiritBox) currentAnti.Add(antiEvidence.AntiSpiritBox);
+            if (AntiTemps) currentAnti.Add(antiEvidence.AntiTemps);
+            if (AntiWriting) currentAnti.Add(antiEvidence.AntiWriting);
+            if (AntiDOTS) currentAnti.Add(antiEvidence.AntiDOTS);
+            List<Label> toKeep = new List<Label>();
+            List<GhostTypes> ghostKeep = new List<GhostTypes>();
+            List<antiEvidence> evdToKeep = new List<antiEvidence>();
+            foreach (Label g in Ghosts) { g.Visible = true; } 
+            foreach (antiEvidence anti in antiToCheck.Keys) { antiToCheck[anti].Visible = true; }
+            foreach (evidence evidence in evidenceToCheck.Keys) { evidenceToCheck[evidence].Visible = true; }
+            foreach (GhostTypes ghost in ghostTypes)
             {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-                Ghost = "Banshee";
-            }
-            else if (Writing && SpiritBox && Temps)
-            {
-
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Demon";
-            }
-            else if (EMF && SpiritBox && Orbs)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-                Ghost = "Jinn";
-            }
-            else if (Temps && SpiritBox && Orbs)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-                Ghost = "Mare";
-            }
-            else if (EMF && SpiritBox && Writing)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Oni";
-            }
-            else if (EMF && Orbs && Temps)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-                Ghost = "Phantom";
-            }
-            else if (Orbs && Fingerprints && SpiritBox)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-                Ghost = "Poltergeist";
-            }
-            else if (EMF && Writing && Fingerprints)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Revenant";
-            }
-            else if (EMF && Writing && Orbs)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Shade";
-            }
-            else if (Writing && Fingerprints && SpiritBox)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Spirit";
-            }
-            else if (Temps && SpiritBox && Fingerprints)
-            {
-                checkBox1.Visible = false; checkBox7.Visible = false;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = false; checkBox15.Visible = false;
-                Ghost = "Wraith";
-            }
-            else if (Temps && Writing && Orbs)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Yurei";
-            }
-            else if (SpiritBox && Orbs && Writing)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-                checkBox6.Visible = false; checkBox9.Visible = false;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Yokai";
-            }
-            else if (Fingerprints && Orbs && Writing)
-            {
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = false; checkBox8.Visible = false;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox10.Visible = false; checkBox11.Visible = false;
-                checkBox13.Visible = false; checkBox12.Visible = false;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                Ghost = "Yokai";
-            }
-            else Ghost = "Unknown";
-            #endregion old checks
-
-            //Ghost Orb - checkBox1.Visible=true;checkBox7.Visible=true;
-            //Spirit Box - checkBox4.Visible=true;checkBox8.Visible=true;
-            //Fingerprints - checkBox6.Visible=true;checkBox9.Visible=true;
-            //EMF - checkBox10.Visible=true;checkBox11.Visible=true;
-            //Temps - checkBox13.Visible=true;checkBox12.Visible=true;
-            //GhostWriting - checkBox14.Visible=true;checkBox15.Visible=true;
-
-            if (!checkBox7.Checked)
-            {
-                checkBox1.Visible = false;
-                checkBox7.Visible = false;
-            }
-            if (!checkBox8.Checked)
-            {
-                checkBox4.Visible = false;
-                checkBox8.Visible = false;
-            }
-            if (!checkBox9.Checked)
-            {
-                checkBox6.Visible = false;
-                checkBox9.Visible = false;
-            }
-            if (!checkBox11.Checked)
-            {
-                checkBox10.Visible = false;
-                checkBox11.Visible = false;
-            }
-            if (!checkBox12.Checked)
-            {
-                checkBox13.Visible = false;
-                checkBox12.Visible = false;
-            }
-            if (!checkBox15.Checked)
-            {
-                checkBox14.Visible = false;
-                checkBox15.Visible = false;
-            }
-            if (label12.Visible == true)
-            {
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-            }
-            if (label13.Visible == true)
-            {
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-            }
-            if (label14.Visible == true)
-            {
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-            }
-            if (label15.Visible == true)
-            {
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-            }
-            if (label16.Visible == true)
-            {
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            if (label17.Visible == true)
-            {
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            if (label18.Visible == true)
-            {
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-            }
-            if (label19.Visible == true)
-            {
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-            }
-            if (label20.Visible == true)
-            {
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-            }
-            if (label21.Visible == true)
-            {
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            if (label22.Visible == true)
-            {
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                checkBox13.Visible = true; checkBox12.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-            }
-            if (label23.Visible == true)
-            {
-                checkBox10.Visible = true; checkBox11.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-                checkBox4.Visible = true; checkBox8.Visible = true;
-            }
-            if (label6.Visible == true)
-            {
-                checkBox6.Visible = true; checkBox9.Visible = true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-            if (label2.Visible == true)
-            {
-                checkBox4.Visible=true;checkBox8.Visible=true;
-                checkBox1.Visible = true; checkBox7.Visible = true;
-                checkBox14.Visible = true; checkBox15.Visible = true;
-            }
-
-            int gCount = 0;
-            string possibleGhost = "";
-            foreach(var cb in Ghosts)
-            {
-                if (cb.Visible == true)
+                if (ghost.checkEvidence(currentAnti, currentEvidence))
                 {
-                    gCount++;
-                    possibleGhost = cb.Text;
+                    foreach(Label g in Ghosts)
+                    {
+                        if (g.Text == ghost.Name) { toKeep.Add(g); ghostKeep.Add(ghost); }
+                    }
                 }
             }
-            if (gCount == 1)
+            foreach (Label g in Ghosts)
             {
-                Ghost = possibleGhost;
+                if (!toKeep.Contains(g)) g.Visible = false;
+                else g.Visible = true;
+                if (toKeep.Count == 1) Ghost = toKeep[0].Text; else Ghost = "Unknown";
             }
-
+            foreach (GhostTypes g in ghostKeep)
+            {
+                var allEvidence = g.GetEvidence();
+                foreach(evidence e in allEvidence)
+                {
+                    if(!evdToKeep.Contains(inverse(e)))evdToKeep.Add(inverse(e));
+                }
+            }
+            foreach (antiEvidence anti in antiToCheck.Keys)
+            {
+                if (!evdToKeep.Contains(anti)) if(antiToCheck[anti].Checked!=true)antiToCheck[anti].Visible = false; else antiToCheck[anti].Visible = true;
+            }
+            foreach (evidence evidence in evidenceToCheck.Keys)
+            {
+                if (antiToCheck[inverse(evidence)].Visible) evidenceToCheck[evidence].Visible = true; else if (!evidenceToCheck[evidence].Checked) evidenceToCheck[evidence].Visible = false;
+            }
+            
             label3.Text = "Current Ghost: " + Ghost;
             checkSanity();
             UpdateText();
@@ -1202,50 +868,9 @@ namespace Phasmophobia_Helper_App
             else
             {
                 label7.Visible = true;
-                switch (Ghost)
+                foreach(GhostTypes ghost in ghostTypes)
                 {
-                    case "Spirit":
-                        label7.Text = "Smudge stick affects ghost longer.";
-                        break;
-                    case "Shade":
-                        label7.Text = "Shy guy, will be harder to find if in groups.\nWill not hunt if multiple people are around.";
-                        break;
-                    case "Phantom":
-                        label7.Text = "Drops sanity if looked at, take a photo to make it go away.";
-                        break;
-                    case "Jinn":
-                        label7.Text = "Power hungry, kill the breaker.  \n With power on, it moves faster, until it gets close to you.";
-                        break;
-                    case "Yurei":
-                        label7.Text = "Strong effect on sanity.  Smudge to prevent from wandering.";
-                        break;
-                    case "Mare":
-                        label7.Text = "If the light is on in it's room the hunt sanity is 40, but if it is off, it is 60.";
-                        break;
-                    case "Demon":
-                        label7.Text = "Will hunt at 65 sanity instead of 50, be careful. Ask Ouija board if demon (won't lower sanity)";
-                        break;
-                    case "Banshee":
-                        label7.Text = "Will target one player until they die.  Crucifix range increased from 3m to 5m.";
-                        break;
-                    case "Revenant":
-                        label7.Text = "Travels fast when hunting, hiding will slow it down";
-                        break;
-                    case "Oni":
-                        label7.Text = "More active when players are around / doing things nearby.";
-                        break;
-                    case "Poltergeist":
-                        label7.Text = "Can throw multiple objects.  Stay in empty rooms.";
-                        break;
-                    case "Wraith":
-                        label7.Text = "Almost never touches the ground.  Use salt.  It can see through doors.";
-                        break;
-                    case "Yokai":
-                        label7.Text = "It can only hear when you when it is close to you.\nTalking makes it angry.";
-                        break;
-                    case "Hantu":
-                        label7.Text = "It hates cold temperatures, and will move faster in cold temps.\nIt moves slower in warmer areas.";
-                        break;
+                    if (ghost.Name == Ghost) label7.Text = ghost.Description;
                 }
             }
             
@@ -1258,14 +883,30 @@ namespace Phasmophobia_Helper_App
             //comboBox3.SelectedIndex = 10;
             //comboBox4.SelectedIndex = 10;
             checkBox1.Checked = false;
-            //checkBox2.Checked = false;
-            //checkBox3.Checked = false;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
             checkBox4.Checked = false;
             //checkBox5.Checked = false;
             checkBox6.Checked = false;
             checkBox10.Checked = false;
             checkBox14.Checked = false;
             checkBox13.Checked = false;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                mp.Show();
+                mp.currentMap = 9;
+            }
+            catch (System.ObjectDisposedException exc)
+            {
+                mp = new Maps();
+                mp.Show();
+                mp.currentMap = 9;
+            }
+            mp.updateMap();
         }
 
         private void timer1_Tick_1(object sender, EventArgs e)
@@ -1657,5 +1298,116 @@ namespace Phasmophobia_Helper_App
         #endregion useless
 
 
+    }
+
+    public class GhostTypes
+    {
+        public string Name;
+        public string Description;
+        public evidence evidence1;
+        public evidence evidence2;
+        public evidence evidence3;
+        public antiEvidence anti1;
+        public antiEvidence anti2;
+        public antiEvidence anti3;
+        public antiEvidence anti4;
+
+        public GhostTypes(string name,evidence evidence1,evidence evidence2,evidence evidence3,string desc)
+        {
+            Name = name;
+            Description = desc;
+            this.evidence1 = evidence1;
+            this.evidence2 = evidence2;
+            this.evidence3 = evidence3;
+            var allEvidence = GetEvidence();
+            List<antiEvidence> anti = new List<antiEvidence>();
+            anti.Add(antiEvidence.AntiDOTS);
+            anti.Add(antiEvidence.AntiEMF);
+            anti.Add(antiEvidence.AntiFingerprints);
+            anti.Add(antiEvidence.AntiOrbs);
+            anti.Add(antiEvidence.AntiSpiritBox);
+            anti.Add(antiEvidence.AntiTemps);
+            anti.Add(antiEvidence.AntiWriting);
+            foreach(evidence e in allEvidence)
+            {
+                if(e == evidence.DOTS)
+                {
+                    anti.Remove(antiEvidence.AntiDOTS);
+                }
+                else if(e == evidence.EMF)
+                {
+                    anti.Remove(antiEvidence.AntiEMF);
+                }
+                else if(e == evidence.Fingerprints)
+                {
+                    anti.Remove(antiEvidence.AntiFingerprints);
+                }
+                else if(e == evidence.SpiritBox)
+                {
+                    anti.Remove(antiEvidence.AntiSpiritBox);
+                }
+                else if(e == evidence.Temps)
+                {
+                    anti.Remove(antiEvidence.AntiTemps);
+                }
+                else if(e == evidence.Writing)
+                {
+                    anti.Remove(antiEvidence.AntiWriting);
+                }
+                else if(e == evidence.Orbs)
+                {
+                    anti.Remove(antiEvidence.AntiOrbs);
+                }
+            }
+            anti1 = anti[0];
+            anti2 = anti[1];
+            anti3 = anti[2];
+            anti4 = anti[3];
+        }
+        
+
+        public Array GetEvidence()
+        {
+            evidence[] e = { evidence1, evidence2, evidence3};
+            return e;
+        }
+        public Array GetAnti()
+        {
+            antiEvidence[] e = {anti1, anti2, anti3, anti4};
+            return e;
+        }
+        public bool checkEvidence(evidence ev)
+        {
+            var allEvidence = GetEvidence();
+            foreach(evidence e in allEvidence)
+            {
+                if (e == ev) return true;
+            }
+            return false;
+        }
+        public bool checkEvidence(antiEvidence anti)
+        {
+            var allEvidence = GetAnti();
+            foreach(antiEvidence e in allEvidence)
+            {
+                if (e == anti) return true;
+            }
+            return false;
+        }
+        public bool checkEvidence(List<antiEvidence> antiList, List<evidence> evidences)
+        {
+            
+            var allEvidence = GetEvidence().Cast<evidence>().ToList();
+            var allAnti = GetAnti().Cast<antiEvidence>().ToList();
+            foreach (antiEvidence anti in antiList)
+            {
+                if (!allAnti.Contains(anti)) return false;
+            }
+            foreach(evidence ev in evidences)
+            {
+                if (!allEvidence.Contains(ev)) return false;
+            }
+            return true;
+        }
     }
 }
